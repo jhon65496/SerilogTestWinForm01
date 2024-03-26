@@ -16,22 +16,23 @@ namespace SerilogTestWinForm01
             Log.Logger = new LoggerConfiguration()
                             // add console as logging target
                             .WriteTo.Console(
-                                            outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}") // 
+                                            outputTemplate: "{UtcTimestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}") // 
                                              
-                                                                                                                                          
-
                             // set default minimum level
                             // .Use
                             .MinimumLevel.Debug()
-                            
+                            .Enrich.With<UtcTimestampEnricher>()
                             .CreateLogger();
 
 
-            string message = "`Parametr logging result`";
+            // string message = "`Parametr logging result`";
 
             // logging                        
-            Log.Information($"Some `Information`. Parametr logging -- {message}");
-                        
+               Log.Information("Some `Information`. Parametr logging");
+            // Log.Information($"Some `Information`. Parametr logging -- {message}");
+            // Log.Information("Some `Information`. Parametr logging -- {message}", message);
+
+
 
             Log.CloseAndFlush();
         }
